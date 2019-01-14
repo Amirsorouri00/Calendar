@@ -91,7 +91,7 @@ DATABASES = {
         'USER': 'calendar',
         'PASSWORD': 'nA53$VMbfm9a8',
         'HOST': '127.0.0.1',
-        #'PORT': '5432',
+        'PORT': '',
     }
 }
 
