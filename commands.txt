@@ -1,0 +1,2 @@
+graphviz: python manage.py graph_models -a -g -o mypa.png
+

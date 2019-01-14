@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% include 'accounts/admins/_header.html' with active='new' %}
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>User Username</th>
+          <th>User UUID</th>
+          {% for quiz in quizzes%}
+            {% for role in quiz.roles.all%}
+              <th>User Role {{ forloop.counter }}</th>
+            {% empty %}
+            {% endfor %}
+          {% endfor %}
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quizzes %}
+          <tr>
+            <td class="align-middle">{{ quiz.id }} id.</td>
+            <td class="align-middle">{{ quiz.username }} username.</td>
+            <td class="align-middle">{{ quiz.uuid }} uuid.</td>
+            
+            {% for role in quiz.roles.all %}
+              <td class="align-middle">{{ role }} </td>
+            {% empty %}
+              <td class="align-middle"> no role!! </td>
+            {% endfor %}
+            <td class="text-right">
+              <a href="{% url 'accounts:admins:admin_list' %}" class="btn btn-primary">Start quiz</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="4">No quiz matching your interests right now.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
