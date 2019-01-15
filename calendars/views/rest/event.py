@@ -39,10 +39,9 @@ def test(request, format=None):
         user=user, event_note=event_note, event_date=date, event_time=time)
     event.save()
 
-    events_serializer = ES(event, many = True)
-    #event_type = EventTypeChoice(eventType_id = (event.id % 5) + 1)
-    #event.eventTypes.add(event_type)
+    event_type = EventTypeChoice(eventType_id = (event.id % 5) + 1)
+    event.eventTypes.add(event_type)
     
     # serializer.save()
 
-    return JsonResponse({'created event: ': events_serializer.data}, safe=False, status=200)
+    return JsonResponse({'created event: ': event}, safe=False, status=200)

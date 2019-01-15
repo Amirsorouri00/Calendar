@@ -26,7 +26,7 @@ SECRET_KEY = 'a3ic+-_v+^hdwdb_gi61&pb_%#3uck)1(i%@8i+gtohu@lhkrv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['144.76.178.93', 'localhost', '185.211.58.216']
+ALLOWED_HOSTS = ['144.76.178.93', '127.0.0.1', '185.211.58.216', 'localhost']
 
 # Application definition
 
@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'calendar',
         'PASSWORD': 'nA53$VMbfm9a8',
         'HOST': '127.0.0.1',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
