@@ -1,4 +1,4 @@
-#!/root/calendar_django/linux_env_calendar/bin/python
+#!/home/amir/calendar_django/linux_env_calendar/bin/python
 
 import sys
 import getopt
