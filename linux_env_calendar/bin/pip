@@ -1,4 +1,4 @@
-#!/home/amir/calendar_django/linux_env_calendar/bin/python3.7
+#!/home/amirhossein/Desktop/django_projects/calendar_django/linux_env_calendar/bin/python2
 
 # -*- coding: utf-8 -*-
 import re
