@@ -25,6 +25,6 @@ def test1(request, format=None):
     print(serializer.is_valid())
     print(serializer.errors)
     print(serializer.validated_data)
-    # serializer.save()
+    serializer.save()
 
     return JsonResponse({'received data': request.POST}, safe=False, status=200)

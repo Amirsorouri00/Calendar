@@ -24,7 +24,6 @@ class CustomAuthToken(ObtainAuthToken):
             'email': user.email 
         })
 
-
 @api_view(['POST'])
 @authentication_classes((TokenAuthentication,))
 @permission_classes((IsAuthenticated,))

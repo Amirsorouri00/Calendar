@@ -42,6 +42,6 @@ def test(request, format=None):
     event_type = EventTypeChoice(eventType_id = (event.id % 5) + 1)
     event.eventTypes.add(event_type)
     
-    # serializer.save()
+    serializer.save()
 
     return JsonResponse({'created event: ': event}, safe=False, status=200)

@@ -17,12 +17,19 @@ class RoleField(serializers.Field):
             ret.append(tmp)
         return ret
 
-    # def to_internal_value(self, data):
-    #     ret = {
-    #         "role_id": data["x"],
-    #         "y_coordinate": data["y"],
-    #     }
-    #     return ret
+    def to_internal_value(self, data):
+        print('here')
+        print(list(data))
+        data = data.strip('[').rstrip(']')
+        roles = {'roles': [Role(role_id = int(val)) for val in data.split(',')]}
+        print(roles)
+        # return Role(role_id)
+        # print(data.roles)
+        # ret = {
+        #     "role_id": data["x"],
+        #     "y_coordinate": data["y"],
+        # }
+        return roles
 
 class UserSerializer(cserializers.DynamicFieldsModelSerializer):
     hello = serializers.SerializerMethodField('get_excluder') # define separate field
@@ -39,9 +46,13 @@ class UserSerializer(cserializers.DynamicFieldsModelSerializer):
         # exclude = ['user_uuid']
 
     def create(self, validated_data):
+        roles = validated_data.pop('roles')
         user = User(**validated_data)
         user.set_password(validated_data['password'])
         user.save()
+        for role in roles:
+            role.save()
+            user.roles.add(role)
         return user
         # return User.objects.create(**validated_data)
 

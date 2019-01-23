@@ -21,6 +21,10 @@ class Role(models.Model):
     )
     role_id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES)
 
+    # def __init__(self, role):
+    #     assert(role >= 1 and role <= 5)
+    #     self.role_id = role
+
     def __str__(self):
         return self.get_id_display()
         # return str(self.role_id)
