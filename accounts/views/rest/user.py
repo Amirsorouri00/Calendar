@@ -27,10 +27,13 @@ def test1(request, format=None):
 
 
 # from django.views import View
+from django.views.decorators.http import require_http_methods
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-class SingleUserView(APIView):
+@method_decorator([require_http_methods(["GET", "POST", "PUT", "DELETE"])], name='dispatch')
+class SingleUser(APIView):
     serializer_class = US
     model = User
 
@@ -70,3 +73,47 @@ class SingleUserView(APIView):
             error_message = "request.Delete doesnt exist. "
             return JsonResponse(error_message, safe=False, status=500)
 
+
+from rest_framework import generics
+# from rest_framework.permissions import IsAdminUser, IsAuthenticated
+
+class UserListCreate(generics.ListCreateAPIView):
+    ''' Used for read-write endpoints to represent a collection of model instances.
+    Provides get and post method handlers. '''
+
+    queryset = User.objects.all()
+    serializer_class = US
+    # permission_classes = (IsAdminUser, IsAuthenticated)
+
+    def get_queryset(self):
+        # user = User.objects.filter(id = 3)
+        # print(self.request.data.get('all'))
+        filter_role = {}
+        # queryset = self.get_queryset()
+        if self.request.data.get('all'):
+            return User.objects.all()
+        elif self.request.data.get('fields'):
+            #change
+            data = self.request.data.get('fields').strip('[').rstrip(']')
+            filter_role['id'] = [{int(val) for val in data.split(',')}]
+            print(filter_role)
+            # return User.objects.filter(id in filter_role)
+            return get_object_or_404(User.objects.all(), *filter_role)
+
+        else: return JsonResponse({'error': 'no user specified to show.'})
+
+    def perform_create(self, serializer):
+        serializer.save(data=self.request.data)
+
+    def perform_update(self, serializer):
+        serializer.save(data=self.request.data)
+
+    # def get_object(self):
+    #     queryset = self.get_queryset()
+    #     filter = {}
+    #     for field in self.multiple_lookup_fields:
+    #         filter[field] = self.kwargs[field]
+
+    #     obj = get_object_or_404(queryset, **filter)
+    #     self.check_object_permissions(self.request, obj)
+    #     return obj

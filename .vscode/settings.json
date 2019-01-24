@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "windows_env_calendar\\Scripts\\python.exe"
+    "python.pythonPath": "/usr/local/bin/python3",
+    "python.linting.enabled": false
 }
