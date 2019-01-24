@@ -29,6 +29,7 @@ urlpatterns = [
 
         path('user/', include(([
             path('', SingleUser.as_view(), name='single_user_view'),
+            path('<int:uuid>/', SingleUser.as_view(), name='single_user_view1'),
             path('list/', UserListCreate.as_view(), name='list_user_view'),
             path('test2/', user_test2, name='rest_user_test2'),
             path('test1/', user_test1, name='rest_user_test1'),
