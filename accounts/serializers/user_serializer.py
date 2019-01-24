@@ -49,11 +49,11 @@ class UserSerializer(cserializers.DynamicFieldsModelSerializer):
         # return User.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.id = validated_data.get('id', instance.id)
-        instance.uuid = validated_data.get('uuid', instance.uuid)
-        instance.username = validated_data.get('username', instance.username)
-        instance.password = validated_data.get('password', instance.password)
-        instance.set_password(validated_data['password'])
+        # instance.id = validated_data.get('id', instance.id)
+        # instance.uuid = validated_data.get('uuid', instance.uuid)
+        # instance.username = validated_data.get('username', instance.username)
+        # instance.password = validated_data.get('password', instance.password)
+        # instance.set_password(validated_data['password'])
         instance.save()
         return instance
 

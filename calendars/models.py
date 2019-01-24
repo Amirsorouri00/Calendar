@@ -9,7 +9,7 @@ from django.urls import reverse
 
 class EventTypeChoice(models.Model):
     '''
-    The Role entries are managed by the system,
+    The EventType entries are managed by the system,
     automatically created via a Django data migration.
     '''
     MEDICINE = 1

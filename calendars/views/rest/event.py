@@ -5,7 +5,6 @@ from calendars.models import Event, EventTypeChoice
 from accounts.models import User
 
 def test2(request, format=None):
-    # print(request.POST)
     events = Event.objects.all()
     events_serializer = ES(events, many = True)
     print('events serialized result = {0}'.format(events_serializer))
@@ -40,8 +39,7 @@ def test(request, format=None):
     event.save()
 
     event_type = EventTypeChoice(eventType_id = (event.id % 5) + 1)
+    event_type.save()
     event.eventTypes.add(event_type)
     
-    serializer.save()
-
-    return JsonResponse({'created event: ': event}, safe=False, status=200)
+    return JsonResponse({'created event: ': 'saved'}, safe=False, status=200)

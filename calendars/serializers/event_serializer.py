@@ -11,27 +11,23 @@ class EventTypeField(serializers.Field):
     def to_representation(self, instance):
         ret = []
         for value in instance.eventTypes.all():
-            print(value)
             tmp = {
-                "role_id": value.eventType_id,
-                "role_name": value.get_id_display()
+                "type_id": value.eventType_id,
+                "type_name": value.get_id_display()
             }
             ret.append(tmp)
         return ret
 
-    # def to_internal_value(self, data):
-    #     ret = {
-    #         "role_id": data["x"],
-    #         "y_coordinate": data["y"],
-    #     }
-    #     return ret
+    def to_internal_value(self, data):
+        data = data.strip('[').rstrip(']')
+        types = {'event_types': [EventTypeChoice(eventType_id = int(val)) for val in data.split(',')]}
+        return types
 
 class EventSerializer(cserializers.DynamicFieldsModelSerializer):
     hello = serializers.SerializerMethodField('get_excluder') # define separate field
     exclud = serializers.SerializerMethodField() # define separate field
     present_time = serializers.SerializerMethodField() # define separate field
     event_types = EventTypeField(source='*')
-    # popularity = serializers.IntegerField() # popularity is a defined method in the model
     
     class Meta:
         model = Event
@@ -44,15 +40,26 @@ class EventSerializer(cserializers.DynamicFieldsModelSerializer):
 
     def create(self, validated_data):
         #Edit
+        event_types = validated_data.pop('event_types')
         event = Event(**validated_data)
         event.save()
+        for event_type in event_types:
+            event_type.save()
+            user.eventTypes.add(event_type)
         return event
 
     def update(self, instance, validated_data):
-        instance.id = validated_data.get('id', instance.id)
-        instance.uuid = validated_data.get('uuid', instance.uuid)
-        instance.event_note = validated_data.get('event_note', instance.username)
-        #Edit
+        # instance.id = validated_data.get('id', instance.id)
+        # instance.uuid = validated_data.get('uuid', instance.uuid)
+        event_types = validated_data.pop('event_types')
+        instance.event_note = validated_data.get('event_note', instance.event_note)
+        instance.event_date = validated_data.get('event_date', instance.event_date)
+        instance.event_time = validated_data.get('event_time', instance.event_time)
+        # instance.event_date = validated_data.get('event_date', instance.event_date)
+        for event_type in event_types:
+            event_type.save()
+            instance.eventTypes.add(event_type)
+
         instance.save()
         return instance
 
