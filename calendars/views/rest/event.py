@@ -9,7 +9,6 @@ def test2(request, format=None):
     events = Event.objects.all()
     events_serializer = ES(events, many = True)
     print('events serialized result = {0}'.format(events_serializer))
-    # serializer = US(data = request.POST)
 
     # print(serializer)
     # print(users_serializer.is_valid())
@@ -17,6 +16,7 @@ def test2(request, format=None):
     # print(serializer.validated_data)
     # serializer.save()
     return JsonResponse({'received data': events_serializer.data}, safe=False, status=200)
+
 
 def test1(request, format=None):
     print(request.POST)

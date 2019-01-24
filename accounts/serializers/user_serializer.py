@@ -9,7 +9,7 @@ class RoleField(serializers.Field):
     def to_representation(self, instance):
         ret = []
         for value in instance.roles.all():
-            print(value)
+            # print(value)
             tmp = {
                 "role_id": value.role_id,
                 "role_name": value.get_id_display()
@@ -18,17 +18,9 @@ class RoleField(serializers.Field):
         return ret
 
     def to_internal_value(self, data):
-        print('here')
-        print(list(data))
+        # print(list(data))
         data = data.strip('[').rstrip(']')
         roles = {'roles': [Role(role_id = int(val)) for val in data.split(',')]}
-        print(roles)
-        # return Role(role_id)
-        # print(data.roles)
-        # ret = {
-        #     "role_id": data["x"],
-        #     "y_coordinate": data["y"],
-        # }
         return roles
 
 class UserSerializer(cserializers.DynamicFieldsModelSerializer):

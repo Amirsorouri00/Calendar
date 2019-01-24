@@ -57,13 +57,13 @@ class User(AbstractUser):
         #     models.Index(fields=['last_name', 'first_name']),
         #     models.Index(fields=['first_name'], name='first_name_idx'),
         # ]
-
         
     @property
     def popularity(self):
         likes = 12
         time = 12 #hours since created
         return likes / time if time > 0 else likes
+
 
 class Profile(models.Model):
     #_safedelete_policy = NO_DELETE
